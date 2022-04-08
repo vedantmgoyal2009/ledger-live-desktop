@@ -76,16 +76,11 @@ export function sortAccountsByStatus(accounts: Account[]) {
 
     // Handle Account type first
     if (account.type === "Account") {
-      if (account.disabled) {
-        if (subAccounts.length) {
-          // When a disable account has at least an active subAccount, add it to the activeAccounts
-          activeAccounts = [account, ...subAccounts, ...disabledSubAccounts, ...activeAccounts];
-        } else {
-          // When a disable account has no active subAccount, add it to the disabledAccounts
-          disabledAccounts = [account, ...disabledSubAccounts, ...disabledAccounts];
-        }
+      if (account.disabled && !subAccounts.length) {
+        // When a disabled account has no active subAccount, add it to the disabledAccounts
+        disabledAccounts = [account, ...disabledSubAccounts, ...disabledAccounts];
       } else {
-        // When an account is active, add it to the activeAccounts with the active subAccounts first
+        // When an account has at least an active subAccount, add it to the activeAccounts
         activeAccounts = [account, ...subAccounts, ...disabledSubAccounts, ...activeAccounts];
       }
 
@@ -93,7 +88,7 @@ export function sortAccountsByStatus(accounts: Account[]) {
       subAccounts = [];
       disabledSubAccounts = [];
     } else {
-      // Handle TokenAccount and ChildAccount type
+      // Add TokenAccount and ChildAccount to the subAccounts arrays
       if (account.disabled) {
         disabledSubAccounts.unshift(account);
       } else {
