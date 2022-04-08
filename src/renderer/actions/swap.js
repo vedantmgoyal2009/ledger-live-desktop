@@ -1,7 +1,10 @@
 // @flow
 import { getAccountCurrency } from "@ledgerhq/live-common/lib/account";
 import { flattenAccounts } from "@ledgerhq/live-common/lib/account/helpers";
-import type { Transaction } from "@ledgerhq/live-common/lib/exchange/swap/types";
+import type {
+  Transaction,
+  UPDATE_PROVIDERS_TYPE,
+} from "@ledgerhq/live-common/lib/exchange/swap/types";
 import type { Account, TokenAccount } from "@ledgerhq/live-common/lib/types";
 import memoize from "lodash/memoize";
 import { createAction } from "redux-actions";
