@@ -71,13 +71,13 @@ const steps: Array<St> = [
   },
   {
     id: "connectDevice",
-    label: <Trans i18nKey="cosmos.common.connectDevice.title" />,
+    label: <Trans i18nKey="cosmos.delegation.flow.steps.connectDevice.title" />,
     component: GenericStepConnectDevice,
     onBack: ({ transitionTo }: StepProps) => transitionTo("amount"),
   },
   {
     id: "confirmation",
-    label: <Trans i18nKey="cosmos.common.confirmation.title" />,
+    label: <Trans i18nKey="cosmos.delegation.flow.steps.confirmation.title" />,
     component: StepConfirmation,
     footer: StepConfirmationFooter,
   },

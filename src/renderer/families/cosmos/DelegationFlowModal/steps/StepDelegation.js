@@ -8,7 +8,7 @@ import TrackPage from "~/renderer/analytics/TrackPage";
 import Box from "~/renderer/components/Box";
 import Button from "~/renderer/components/Button";
 
-import ValidatorsField from "../fields/ValidatorsField";
+import GenericValidatorField from "../fields/GenericValidatorField";
 import ErrorBanner from "~/renderer/components/ErrorBanner";
 import AccountFooter from "~/renderer/modals/Send/AccountFooter";
 
@@ -46,15 +46,7 @@ export default function StepDelegation({
     <Box flow={1}>
       <TrackPage category="Delegation Flow" name="Step Validator" />
       {error && <ErrorBanner error={error} />}
-      <ValidatorsField
-        account={account}
-        validators={transaction.validators || []}
-        delegations={delegations}
-        bridgePending={bridgePending}
-        onChangeDelegations={updateDelegation}
-        status={status}
-        t={t}
-      />
+      <GenericValidatorField account={account} status={status} t={t} />
     </Box>
   );
 }

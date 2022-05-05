@@ -2113,6 +2113,9 @@
               "description": "Choose your validator wisely: Part of your delegated assets may be irrevocably lost if the validator does not behave appropriately."
             }
           },
+          "amount": {
+            "title": "Amount"
+          },
           "validator": {
             "title": "Validators"
           },
