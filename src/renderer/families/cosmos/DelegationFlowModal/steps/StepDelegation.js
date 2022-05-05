@@ -44,7 +44,7 @@ export default function StepDelegation({
 
   return (
     <Box flow={1}>
-      <TrackPage category="Delegation Flow" name="Step 1" />
+      <TrackPage category="Delegation Flow" name="Step Validator" />
       {error && <ErrorBanner error={error} />}
       <ValidatorsField
         account={account}
@@ -84,7 +84,7 @@ export function StepDelegationFooter({
           id="delegate-continue-button"
           disabled={!canNext}
           primary
-          onClick={() => transitionTo("connectDevice")}
+          onClick={() => transitionTo("amount")}
         >
           <Trans i18nKey="common.continue" />
         </Button>
