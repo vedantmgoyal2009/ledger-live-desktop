@@ -3,42 +3,70 @@ import React, { useState } from "react";
 import type { TFunction } from "react-i18next";
 
 import { getAccountUnit } from "@ledgerhq/live-common/lib/account";
+import { useCosmosPreloadData } from "@ledgerhq/live-common/lib/families/cosmos/react";
 
 import styled from "styled-components";
 import Box from "~/renderer/components/Box";
 import Text from "~/renderer/components/Text";
+import ScrollLoadingList from "~/renderer/components/ScrollLoadingList";
 import { Trans } from "react-i18next";
 import IconAngleDown from "~/renderer/icons/AngleDown";
+import ValidatorRow from "../components/ValidatorRow";
 import type { ThemedComponent } from "~/renderer/styles/StyleProvider";
 import type { Account, TransactionStatus } from "@ledgerhq/live-common/lib/types";
-import {
-  useCosmosPreloadData,
-} from "@ledgerhq/live-common/lib/families/cosmos/react";
 import type {
   CosmosDelegation,
+  CosmosValidatorItem,
 } from "@ledgerhq/live-common/lib/families/cosmos/types";
 
 type Props = {
   t: TFunction,
   account: Account,
   status: TransactionStatus,
-  delegations: CosmosDelegation[]
+  delegations: CosmosDelegation[],
+  onChangeValidator: ({ address: string }) => void,
+  chosenVoteAccAddr: string,
 };
 
 const GenericValidatorField = ({
   account,
   status,
   t,
+  delegations,
+  onChangeValidator,
+  chosenVoteAccAddr,
 }: Props) => {
   const [showAll, setShowAll] = useState(false);
   const unit = getAccountUnit(account);
-  const { validators: cosmosValidators } = useCosmosPreloadData();
+  const { validators } = useCosmosPreloadData();
 
-
+  const renderItem = (validator: CosmosValidatorItem, validatorIdx: number) => {
+    return (
+      <ValidatorRow
+        currency={account.currency}
+        key={validator.validatorAddress}
+        validator={validator}
+        unit={unit}
+        active={chosenVoteAccAddr === validator.validatorAddress}
+        onClick={onChangeValidator}
+      ></ValidatorRow>
+    );
+  };
 
   return (
     <ValidatorsFieldContainer>
-      <Box p={1}></Box>
+      <Box p={1}>
+        <ScrollLoadingList
+          data={
+            showAll
+              ? validators
+              : [validators.find(v => v.validatorAddress === chosenVoteAccAddr) || validators[0]]
+          }
+          style={{ flex: showAll ? "1 0 256px" : "1 0 64px", marginBottom: 0, paddingLeft: 0 }}
+          renderItem={renderItem}
+          noResultPlaceholder={null}
+        />
+      </Box>
       <SeeAllButton expanded={showAll} onClick={() => setShowAll(shown => !shown)}>
         <Text color="wallet" ff="Inter|SemiBold" fontSize={4}>
           <Trans i18nKey={showAll ? "distribution.showLess" : "distribution.showAll"} />

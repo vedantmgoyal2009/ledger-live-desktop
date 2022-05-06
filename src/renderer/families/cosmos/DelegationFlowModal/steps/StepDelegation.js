@@ -2,11 +2,14 @@
 import invariant from "invariant";
 import React, { useCallback } from "react";
 import { Trans } from "react-i18next";
+import { BigNumber } from "bignumber.js";
+
 import type { StepProps } from "../types";
 import { getAccountBridge } from "@ledgerhq/live-common/lib/bridge";
 import TrackPage from "~/renderer/analytics/TrackPage";
 import Box from "~/renderer/components/Box";
 import Button from "~/renderer/components/Button";
+import type { AccountBridge, Transaction } from "@ledgerhq/live-common/lib/types";
 
 import GenericValidatorField from "../fields/GenericValidatorField";
 import ErrorBanner from "~/renderer/components/ErrorBanner";
@@ -31,22 +34,35 @@ export default function StepDelegation({
 
   const delegations = cosmosResources.delegations || [];
 
-  const updateDelegation = useCallback(
-    updater => {
-      onUpdateTransaction(transaction =>
-        bridge.updateTransaction(transaction, {
-          validators: updater(transaction.validators || []),
-        }),
-      );
-    },
-    [bridge, onUpdateTransaction],
-  );
+  const updateValidator = ({ address }: { address: string }) => {
+    const bridge: AccountBridge<Transaction> = getAccountBridge(account, parentAccount);
+    onUpdateTransaction(tx => {
+      return bridge.updateTransaction(transaction, {
+        validators: [
+          {
+            address: address,
+            amount: BigNumber(0),
+          },
+        ],
+      });
+    });
+  };
+
+console.log({transaction});
+  const chosenVoteAccAddr = transaction.validators[0]?.address || ""; 
 
   return (
     <Box flow={1}>
       <TrackPage category="Delegation Flow" name="Step Validator" />
       {error && <ErrorBanner error={error} />}
-      <GenericValidatorField account={account} status={status} t={t} />
+      <GenericValidatorField
+        account={account}
+        status={status}
+        t={t}
+        delegations={delegations}
+        onChangeValidator={updateValidator}
+        chosenVoteAccAddr={chosenVoteAccAddr}
+      />
     </Box>
   );
 }
