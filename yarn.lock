@@ -16363,10 +16363,10 @@ open@^7.0.2, open@^7.0.3:
     is-docker "^2.0.0"
     is-wsl "^2.1.1"
 
-openpgp@^4.10.10:
-  version "4.10.10"
-  resolved "https://registry.npmjs.org/openpgp/-/openpgp-4.10.10.tgz"
-  integrity sha512-Ub48OogGPjNsr0G/wnJ/SyAQzt/tfcXZTWVZdjKFpXCQV1Ca+upFdSPPkBlGG3lb9EQGOKZJ2tzYNH6ZyKMkDQ==
+openpgp@^4.10.11:
+  version "4.10.11"
+  resolved "https://registry.yarnpkg.com/openpgp/-/openpgp-4.10.11.tgz#3e005cfadb08e664e0c98be2fe7824af601241a0"
+  integrity sha512-ec8m6xkuBqTaSSoNEr7CK0AepeVvKkgvMxs0KVAtEHlFDd1fA93Q+jYls6vRfrZDl0UEAEmcvRUa4W8VuGey2w==
   dependencies:
     asn1.js "^5.0.0"
     node-fetch "^2.1.2"
